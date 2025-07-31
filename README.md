@@ -4,9 +4,9 @@
 
 ![PyPI](https://img.shields.io/pypi/v/talk2dom)
 [![PyPI Downloads](https://static.pepy.tech/badge/talk2dom)](https://pepy.tech/projects/talk2dom)
-![Stars](https://img.shields.io/github/stars/itbanque/talk2dom?style=social)
+![Stars](https://img.shields.io/github/stars/itbanque/talk2dom-selenium?style=social)
 ![License](https://img.shields.io/github/license/itbanque/talk2dom-selenium)
-![CI](https://github.com/itbanque/talk2dom/actions/workflows/test.yaml/badge.svg)
+![CI](https://github.com/itbanque/talk2dom-selenium/actions/workflows/test.yaml/badge.svg)
 
 **talk2dom** is a focused utility that solves one of the hardest problems in browser automation and UI testing:
 
@@ -70,6 +70,19 @@ pip install talk2dom
 
 For developers and testers who prefer structured Python control, `ActionChain` lets you drive the browser step-by-step.
 
+### Basic Usage
+
+By default, talk2dom uses gpt-4o-mini to balance performance and cost.
+However, during testing, gpt-4o has shown the best performance for this task.
+
+#### Make sure you have OPENAI_API_KEY
+
+```bash
+export OPENAI_API_KEY="..."
+```
+
+Note: All models must support chat completion APIs and follow OpenAI-compatible schema.
+
 #### Sample Code
 
 ```shell
@@ -95,7 +108,7 @@ ActionChain(driver) \
     .close()
 ```
 
-### Free Tier Access
+### Free Models
 
 You can use `talk2dom` for free — just [register for an API key](https://talk2dom.itbanque.com) to receive a generous quota, or self-host it with your own model and server.
 
