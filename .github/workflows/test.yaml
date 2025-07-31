@@ -1,0 +1,38 @@
+
+name: Sanity Test
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
+      - 'CONTRIBUTING.md'
+      - '.gitignore'
+      - '**/*.md'
+      - 'pyproject.toml'
+      - '**/*.html'
+
+jobs:
+  black:
+      name: test
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Setup Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.11"
+            cache: "pip"
+        - name: Install Dependencies
+          run: |
+            pip install ruff
+            pip install -r requirements.txt
+        - name: Lint Checks
+          run: |
+            ruff check .
+            ruff format --check .
+        - name: Run Unittest
+          run: |
+            pip install pytest
+            export PYTHONPATH=$(pwd)
+            pytest tests
