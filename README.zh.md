@@ -70,20 +70,12 @@ pip install talk2dom
 
 如果你偏好使用结构化 Python 控制浏览器，`ActionChain` 让你可以逐步操作浏览器。
 
-### 基本用法
-
-talk2dom 默认使用 gpt-4o-mini，在性能与成本间实现良好平衡。
-测试中显示，gpt-4o 表现最佳。
-
-#### 确保设置 OPENAI_API_KEY
-
-```bash
-export OPENAI_API_KEY="..."
-```
-
-注意：所用模型需支持 Chat Completion API，并遵循 OpenAI 兼容协议。
-
 #### 示例代码
+
+```shell
+export TALK2DOM_API_KEY=your_api_key
+export TALK2DOM_PROJECT_ID=your_project_id
+```
 
 ```python
 from selenium import webdriver
@@ -99,13 +91,15 @@ ActionChain(driver) \
     .type("pycon") \
     .type(Keys.RETURN) \
     .assert_page_not_contains("No results found.") \
-    .valid("the 'PSF PyCon Trademark Usage Policy' is exist") \ 
     .close()
 ```
 
-### 免费模型支持
+### 免费使用方式
 
-talk2dom 也支持来自 [Groq](https://groq.com/) 的免费模型，如 `llama-3.3-70b-versatile`
+你可以免费试用 talk2dom，有两种方式：
+
+1. 注册 [Talk2Dom 平台](https://talk2dom.itbanque.com) 并获取 API Key，每个新用户都有免费额度；
+2. 或者你也可以选择自行部署（Self-host）来本地运行。
 
 ---
 

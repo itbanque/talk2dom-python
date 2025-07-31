@@ -2,16 +2,12 @@ import time
 from loguru import logger
 from typing import Literal
 
-from talk2dom import get_element, highlight_element, validate_element
+from talk2dom import get_element, highlight_element
 
 
 class ActionChain:
-    def __init__(
-        self, driver, model="gpt-4o-mini", model_provider="openai", timeout=20
-    ):
+    def __init__(self, driver, timeout=20):
         self.driver = driver
-        self.model = model
-        self.model_provider = model_provider
         self.timeout = timeout
         self._current_element = None
         self._conversation_history = []
@@ -36,8 +32,6 @@ class ActionChain:
             self.driver,
             description,
             element=element,
-            model=self.model,
-            model_provider=self.model_provider,
             duration=duration,
             conversation_history=self._conversation_history,
         )
@@ -45,20 +39,6 @@ class ActionChain:
             f"Find element, description: {description}, element: {self._current_element}"
         )
         self._conversation_history.append([description, self._current_element.text])
-        return self
-
-    def valid(self, description):
-        validator = validate_element(
-            driver=self.driver,
-            element=None,
-            description=description,
-            model=self.model,
-            model_provider=self.model_provider,
-        )
-        logger.info(
-            f"Validated, description: {description}, result: {validator.result}, reason: {validator.reason}"
-        )
-        assert validator.result is True, validator.reason
         return self
 
     def find_element(self, by, value: str, duration=2):

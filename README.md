@@ -85,6 +85,11 @@ Note: All models must support chat completion APIs and follow OpenAI-compatible 
 
 #### Sample Code
 
+```shell
+export TALK2DOM_API_KEY=your_api_key
+export TALK2DOM_PROJECT_ID=your_project_id
+```
+
 ```python
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -100,13 +105,14 @@ ActionChain(driver) \
     .wait(2) \
     .type(Keys.RETURN) \
     .assert_page_not_contains("No results found.") \
-    .valid("the 'PSF PyCon Trademark Usage Policy' is exist") \ 
     .close()
 ```
 
 ### Free Models
 
-You can also use `talk2dom` with free models like `llama-3.3-70b-versatile` from [Groq](https://groq.com/).
+You can use `talk2dom` for free — just [register for an API key](https://talk2dom.itbanque.com) to receive a generous quota, or self-host it with your own model and server.
+
+No credit card required.
 
 ---
 
