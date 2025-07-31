@@ -70,19 +70,6 @@ pip install talk2dom
 
 For developers and testers who prefer structured Python control, `ActionChain` lets you drive the browser step-by-step.
 
-### Basic Usage
-
-By default, talk2dom uses gpt-4o-mini to balance performance and cost.
-However, during testing, gpt-4o has shown the best performance for this task.
-
-#### Make sure you have OPENAI_API_KEY
-
-```bash
-export OPENAI_API_KEY="..."
-```
-
-Note: All models must support chat completion APIs and follow OpenAI-compatible schema.
-
 #### Sample Code
 
 ```python
