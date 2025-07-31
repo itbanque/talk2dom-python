@@ -5,7 +5,7 @@
 ![PyPI](https://img.shields.io/pypi/v/talk2dom)
 [![PyPI 下载量](https://static.pepy.tech/badge/talk2dom)](https://pepy.tech/projects/talk2dom)
 ![Stars](https://img.shields.io/github/stars/itbanque/talk2dom?style=social)
-![License](https://img.shields.io/github/license/itbanque/talk2dom)
+![License](https://img.shields.io/github/license/itbanque/talk2dom-selenium)
 ![CI](https://github.com/itbanque/talk2dom/actions/workflows/test.yaml/badge.svg)
 
 **talk2dom** 是一个专注于解决浏览器自动化和 UI 测试中最困难问题的工具：
@@ -71,6 +71,11 @@ pip install talk2dom
 如果你偏好使用结构化 Python 控制浏览器，`ActionChain` 让你可以逐步操作浏览器。
 
 #### 示例代码
+
+```shell
+export TALK2DOM_API_KEY=your_api_key
+export TALK2DOM_PROJECT_ID=your_project_id
+```
 
 ```python
 from selenium import webdriver
