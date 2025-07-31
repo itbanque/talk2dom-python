@@ -4,9 +4,9 @@
 
 ![PyPI](https://img.shields.io/pypi/v/talk2dom)
 [![PyPI Downloads](https://static.pepy.tech/badge/talk2dom)](https://pepy.tech/projects/talk2dom)
-![Stars](https://img.shields.io/github/stars/itbanque/talk2dom?style=social)
-![License](https://img.shields.io/github/license/itbanque/talk2dom)
-![CI](https://github.com/itbanque/talk2dom/actions/workflows/test.yaml/badge.svg)
+![Stars](https://img.shields.io/github/stars/itbanque/talk2dom-selenium?style=social)
+![License](https://img.shields.io/github/license/itbanque/talk2dom-selenium)
+![CI](https://github.com/itbanque/talk2dom-selenium/actions/workflows/test.yaml/badge.svg)
 
 **talk2dom** is a focused utility that solves one of the hardest problems in browser automation and UI testing:
 
