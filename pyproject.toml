@@ -1,33 +1,25 @@
 [project]
 name = "talk2dom"
-version = "0.2.7"
-description = "A utility to help you locate UI elements using HTML and natural language."
-authors = [{ name = "Jian", email = "jian@itbanque.com" }]
-license = "Apache-2.0"
+version = "0.1.0"
+description = "Minimal Python client for Talk2Dom API (natural-language DOM locator)."
 readme = "README.md"
-requires-python = ">=3.7"
-dependencies = [
-    "loguru>=0.7.0,<1.0.0",
-    "pydantic>=2.11.3,<3.0.0",
-    "selenium>=4.31.0,<5.0.0",
-    "beautifulsoup4>=4.13,<5.0",
-    "lxml>=5.4,<6.0",
-    "requests>=2.32.4,<3.0.0"
-]
+authors = [{ name = "Talk2Dom" }]
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+dependencies = ["httpx>=0.25"]
+
+[project.optional-dependencies]
+selenium = ["selenium>=4.0"]
+playwright = ["playwright>=1.40"]
 
 [project.urls]
-Homepage = "https://github.com/itbanque/talk2dom"
-
-[project.scripts]
-talk2dom = "talk2dom.cli:main"
-
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+Homepage = "https://talk2dom.itbanque.com"
+Repository = "https://github.com/itbanque/talk2dom-python"
 
 [tool.setuptools]
 include-package-data = true
 packages = ["talk2dom"]
 
-[tool.setuptools.package-data]
-"talk2dom" = []
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
