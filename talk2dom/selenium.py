@@ -75,7 +75,6 @@ def send_keys(
 
 
 class ActionChains(SeleniumActionChains):
-
     def __init__(
         self,
         driver: WebDriver,

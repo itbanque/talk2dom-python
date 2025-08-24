@@ -1,5 +1,8 @@
 from __future__ import annotations
-import os, json, time, asyncio
+import os
+import json
+import time
+import asyncio
 from typing import Optional, Dict
 import httpx
 from .models import LocatorResult
@@ -108,13 +111,13 @@ class Talk2DomClient:
                     raise RemoteError(f"HTTP {resp.status_code}: {resp.text}")
                 data = resp.json()
                 return data.get("result", data)
-            except (RateLimitError, RemoteError) as e:
+            except (RateLimitError, RemoteError):
                 if attempt < self.retries:
                     time.sleep(backoff)
                     backoff *= 2
                     continue
                 raise
-            except Exception as e:
+            except Exception:
                 if attempt < self.retries:
                     time.sleep(backoff)
                     backoff *= 2
@@ -142,13 +145,13 @@ class Talk2DomClient:
                     raise RemoteError(f"HTTP {resp.status_code}: {body!r}")
                 data = resp.json()
                 return data.get("result", data)
-            except (RateLimitError, RemoteError) as e:
+            except (RateLimitError, RemoteError):
                 if attempt < self.retries:
                     await asyncio.sleep(backoff)
                     backoff *= 2
                     continue
                 raise
-            except Exception as e:
+            except Exception:
                 if attempt < self.retries:
                     await asyncio.sleep(backoff)
                     backoff *= 2
