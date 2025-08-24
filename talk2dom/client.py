@@ -2,8 +2,8 @@ from __future__ import annotations
 import os, json, time, asyncio
 from typing import Optional, Dict
 import httpx
-from talk2dom.models import LocatorResult
-from talk2dom.exceptions import (
+from .models import LocatorResult
+from .exceptions import (
     Talk2DomError,
     AuthError,
     RateLimitError,
@@ -25,12 +25,11 @@ class Talk2DomClient:
     def __init__(
         self,
         api_key: str = None,
-        endpoint: Optional[str] = None,
         project_id: str = None,
-        prompt_version: str = "v1",
         timeout_s: float = 30.0,
         retries: int = 2,
         backoff_base: float = 0.5,
+        endpoint: Optional[str] = None,
         headers: Optional[Dict[str, str]] = None,
     ) -> None:
         self.endpoint = (
@@ -38,7 +37,6 @@ class Talk2DomClient:
         ).rstrip("/")
         self.api_key = api_key or os.getenv("T2D_API_KEY")
         self.project_id = project_id or os.getenv("T2D_PROJECT_ID")
-        self.prompt_version = prompt_version
         self.timeout_s = timeout_s
         self.retries = retries
         self.backoff_base = backoff_base
@@ -65,7 +63,7 @@ class Talk2DomClient:
         url: str,
         path: str = "/api/v1/inference/locator",
     ) -> LocatorResult:
-        payload = {"instruction": instruction, "html": html, "url": url}
+        payload = {"user_instruction": instruction, "html": html, "url": url}
         data = self._post_with_retry(path, payload)
         return LocatorResult(
             selector_type=data.get("selector_type"),
@@ -78,10 +76,10 @@ class Talk2DomClient:
         instruction: str,
         html: str,
         url: Optional[str] = None,
-        path: str = "/api/v1/locate",
+        path: str = "/api/v1/inference/locator",
     ) -> LocatorResult:
         payload = {
-            "instruction": instruction,
+            "user_instruction": instruction,
             "html": html,
             "url": url or "",
         }

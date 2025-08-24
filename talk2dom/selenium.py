@@ -3,8 +3,9 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.common.action_chains import ActionChains as SeleniumActionChains
 
-from talk2dom.client import Talk2DomClient
+from .client import Talk2DomClient
 
 
 def _get_html(driver: WebDriver, element: WebElement = None):
@@ -71,3 +72,43 @@ def send_keys(
     _highlight_element(driver, el)
     el.clear()
     el.send_keys(text)
+
+
+class ActionChains(SeleniumActionChains):
+
+    def __init__(
+        self,
+        driver: WebDriver,
+        client: Talk2DomClient,
+        duration: int = 250,
+        devices=None,
+    ):
+        super().__init__(driver, duration=duration, devices=devices)
+        self.client = client
+        self._last_element: WebElement | None = None
+
+    def predict_element(self, instruction: str) -> SeleniumActionChains:
+        html = _get_html(self._driver, self._last_element)
+        res = self.client.locate(instruction, html=html, url=self._driver.current_url)
+        by, value = res.selector_type, res.selector_value
+        el = self._driver.find_element(by, value)
+        _highlight_element(self._driver, el)
+        self.move_to_element(el)
+        return self
+
+    def move_to_element(self, to_element: WebElement) -> SeleniumActionChains:
+        """Moving the mouse to the middle of an element.
+
+        :Args:
+         - to_element: The WebElement to move to.
+        """
+
+        self._last_element = to_element
+        self.w3c_actions.pointer_action.move_to(to_element)
+        self.w3c_actions.key_action.pause()
+
+        return self
+
+    @property
+    def current_element(self):
+        return self._last_element
