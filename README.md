@@ -28,7 +28,7 @@ res = client.alocate("click the primary login button", html="<html>...</html>", 
 ## Environment variables
 - T2D_API_KEY
 - T2D_PROJECT_ID
-- T2D_ENDPOINT (optional; defaults to https://api.talk2dom.itbanqye.com)
+- T2D_ENDPOINT (optional; defaults to https://api.talk2dom.itbanque.com)
 
 ## Selenium ActionChains
 
