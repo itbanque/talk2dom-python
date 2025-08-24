@@ -6,8 +6,8 @@ Minimal client SDK to call the Talk2Dom API.
 ```bash
 pip install talk2dom
 # optional
-pip install ".[selenium]"
-pip install ".[playwright]"
+pip install "talk2dom[selenium]"
+pip install "talk2dom[playwright]"
 
 ## Quiack Start
 ```python
