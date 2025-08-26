@@ -1,5 +1,11 @@
 # Talk2Dom Python SDK
 
+![PyPI](https://img.shields.io/pypi/v/talk2dom)
+[![PyPI Downloads](https://static.pepy.tech/badge/talk2dom)](https://pepy.tech/projects/talk2dom)
+![Stars](https://img.shields.io/github/stars/itbanque/talk2dom-selenium?style=social)
+![License](https://img.shields.io/github/license/itbanque/talk2dom-selenium)
+![CI](https://github.com/itbanque/talk2dom-selenium/actions/workflows/test.yaml/badge.svg)
+
 Minimal client SDK to call the Talk2Dom API.
 
 ## Install
