@@ -13,7 +13,6 @@ Minimal client SDK to call the Talk2Dom API.
 pip install talk2dom
 # optional
 pip install "talk2dom[selenium]"
-pip install "talk2dom[playwright]"
 ```
 
 ```python

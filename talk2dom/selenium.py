@@ -1,9 +1,16 @@
 import time
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.common.action_chains import ActionChains as SeleniumActionChains
+try:
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.remote.webelement import WebElement
+    from selenium.webdriver.remote.webdriver import WebDriver
+    from selenium.webdriver.common.action_chains import (
+        ActionChains as SeleniumActionChains,
+    )
+except ImportError:
+    raise ImportError(
+        "selenium is not installed, please run `pip install talk2dom[selenium]`"
+    )
 
 from .client import Talk2DomClient
 
