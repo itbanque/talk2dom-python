@@ -1,12 +1,12 @@
 [project]
 name = "talk2dom"
-version = "0.2.7"
+version = "0.2.8"
 description = "Minimal Python client for Talk2Dom API (natural-language DOM locator)."
 readme = "README.md"
 authors = [{ name = "Talk2Dom" }]
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
-dependencies = ["httpx>=0.25"]
+dependencies = ["httpx>=0.25", "loguru>=0.7.3"]
 
 [project.optional-dependencies]
 selenium = ["selenium>=4.0"]

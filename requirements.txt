@@ -1,3 +1,4 @@
 selenium==4.35.0
 httpx==0.28.1
 playwright==1.54.0
+loguru==0.7.3

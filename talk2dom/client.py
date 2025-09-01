@@ -5,6 +5,7 @@ import time
 import asyncio
 from typing import Optional, Dict
 import httpx
+from loguru import logger
 from .models import LocatorResult
 from .exceptions import (
     Talk2DomError,
@@ -68,7 +69,10 @@ class Talk2DomClient:
     ) -> LocatorResult:
         payload = {"user_instruction": instruction, "html": html, "url": url}
         data = self._post_with_retry(path, payload)
+        logger.info(f"Location response: {data}")
         return LocatorResult(
+            action_type=data.get("action_type"),
+            action_value=data.get("action_value"),
             selector_type=data.get("selector_type"),
             selector_value=data["selector_value"],
         )

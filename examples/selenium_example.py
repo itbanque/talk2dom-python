@@ -1,6 +1,6 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
+import time
 from talk2dom.selenium import ActionChains
 from talk2dom.client import Talk2DomClient
 
@@ -10,6 +10,7 @@ client = Talk2DomClient()
 driver.get("https://python.org")
 
 actions = ActionChains(driver, client)
-actions.predict_element("Find the Search box").click().send_keys("pycon").send_keys(
-    Keys.ENTER
-).perform()
+
+actions.go("Type 'pycon' in the search box").go("Click the 'go' button")
+
+time.sleep(2)

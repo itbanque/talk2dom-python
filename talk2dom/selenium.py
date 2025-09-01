@@ -1,4 +1,5 @@
 import time
+from loguru import logger
 
 try:
     from selenium.webdriver.common.by import By
@@ -81,6 +82,35 @@ def send_keys(
     el.send_keys(text)
 
 
+def go(
+    driver: WebDriver,
+    instruction: str,
+    client: Talk2DomClient,
+    element: WebElement = None,
+):
+    html = _get_html(driver, element)
+    res = client.locate(instruction, html=html, url=driver.current_url)
+    by, value = res.selector_type, res.selector_value
+    if not value:
+        logger.warning(f"Locator value {value} not for {by}")
+        return
+    action_type, action_value = res.action_type, res.action_value
+    el = driver.find_element(by, value)
+    _highlight_element(driver, el)
+    if action_type == "click":
+        el.click()
+    elif action_type == "type":
+        if not action_value:
+            logger.warning(
+                f"Action value {action_value} not provided for {action_type}"
+            )
+            return
+        el.clear()
+        el.send_keys(action_value)
+    else:
+        logger.warning(f"action type: {action_type} is not supported")
+
+
 class ActionChains(SeleniumActionChains):
     def __init__(
         self,
@@ -118,3 +148,32 @@ class ActionChains(SeleniumActionChains):
     @property
     def current_element(self):
         return self._last_element
+
+    def go(self, instruction: str, use_last_element=False):
+        html = (
+            _get_html(self._driver, self._last_element)
+            if use_last_element
+            else _get_html(self._driver)
+        )
+        res = self.client.locate(instruction, html=html, url=self._driver.current_url)
+        by, value = res.selector_type, res.selector_value
+        if not value:
+            logger.warning(f"Locator value {value} not for {by}")
+            return self
+        action_type, action_value = res.action_type, res.action_value
+        el = self._driver.find_element(by, value)
+        _highlight_element(self._driver, el)
+        self.move_to_element(el)
+        if action_type == "click":
+            el.click()
+        elif action_type == "type":
+            if not action_value:
+                logger.warning(
+                    f"Action value {action_value} not provided for {action_type}"
+                )
+                return self
+            el.clear()
+            el.send_keys(action_value)
+        else:
+            logger.warning(f"action type: {action_type} is not supported")
+        return self
