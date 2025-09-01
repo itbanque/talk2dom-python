@@ -75,9 +75,9 @@ def _find_locator(
 
 # --------- PageNavigator Class ----------
 class PageNavigator:
-    def __init__(self, page: Page, client: Talk2DomClient):
+    def __init__(self, page: Page, client: Talk2DomClient = None):
         self.page = page
-        self.client = client
+        self.client = client if client else Talk2DomClient()
 
     def get_element(self, instruction: str, element: Locator | None = None) -> Locator:
         html = _get_html(self.page, element)

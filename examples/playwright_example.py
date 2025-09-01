@@ -1,8 +1,5 @@
 from playwright.sync_api import sync_playwright
 from talk2dom.playwright import PageNavigator
-from talk2dom.client import Talk2DomClient
-
-client = Talk2DomClient()
 
 
 def main():
@@ -11,7 +8,7 @@ def main():
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
 
-        navigator = PageNavigator(page, client)
+        navigator = PageNavigator(page)
 
         # Navigate to python.org
         page.goto("https://www.python.org")

@@ -45,14 +45,12 @@ from selenium import webdriver
 
 import time
 from talk2dom.selenium import ActionChains
-from talk2dom.client import Talk2DomClient
 
 driver = webdriver.Chrome()
-client = Talk2DomClient()
 
 driver.get("https://python.org")
 
-actions = ActionChains(driver, client)
+actions = ActionChains(driver)
 
 actions\
     .go("Type 'pycon' in the search box")\
@@ -67,9 +65,6 @@ time.sleep(2)
 ```python
 from playwright.sync_api import sync_playwright
 from talk2dom.playwright import PageNavigator
-from talk2dom.client import Talk2DomClient
-
-client = Talk2DomClient()
 
 
 def main():
@@ -78,7 +73,7 @@ def main():
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
 
-        navigator = PageNavigator(page, client)
+        navigator = PageNavigator(page)
 
         # Navigate to python.org
         page.goto("https://www.python.org")

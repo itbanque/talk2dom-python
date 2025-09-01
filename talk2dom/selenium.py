@@ -115,12 +115,13 @@ class ActionChains(SeleniumActionChains):
     def __init__(
         self,
         driver: WebDriver,
-        client: Talk2DomClient,
+        client: Talk2DomClient = None,
         duration: int = 250,
         devices=None,
     ):
         super().__init__(driver, duration=duration, devices=devices)
-        self.client = client
+        self.client = client if client else Talk2DomClient()
+
         self._last_element: WebElement | None = None
 
     def predict_element(self, instruction: str) -> SeleniumActionChains:
