@@ -13,6 +13,8 @@ Minimal client SDK to call the Talk2Dom API.
 pip install talk2dom
 # optional
 pip install "talk2dom[selenium]"
+# or
+pip install "talk2dom[playwright]"
 ```
 
 ```python
@@ -40,8 +42,8 @@ res = client.alocate("click the primary login button", html="<html>...</html>", 
 
 ```python
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
+import time
 from talk2dom.selenium import ActionChains
 from talk2dom.client import Talk2DomClient
 
@@ -51,8 +53,49 @@ client = Talk2DomClient()
 driver.get("https://python.org")
 
 actions = ActionChains(driver, client)
-actions.predict_element("Find the Search box").click().send_keys("pycon").send_keys(
-    Keys.ENTER
-).perform()
+
+actions\
+    .go("Type 'pycon' in the search box")\
+    .go("Click the 'go' button")
+
+time.sleep(2)
+
+```
+
+## Playwright PageNavigator
+
+```python
+from playwright.sync_api import sync_playwright
+from talk2dom.playwright import PageNavigator
+from talk2dom.client import Talk2DomClient
+
+client = Talk2DomClient()
+
+
+def main():
+    with sync_playwright() as p:
+        # Launch Chromium browser
+        browser = p.chromium.launch(headless=False)
+        page = browser.new_page()
+
+        navigator = PageNavigator(page, client)
+
+        # Navigate to python.org
+        page.goto("https://www.python.org")
+
+        navigator.go("Type 'pycon' in the search box")
+
+        navigator.go("Click the 'go' button")
+
+        # Wait for results to load
+        page.wait_for_timeout(3000)
+
+        # Close the browser
+        browser.close()
+
+
+if __name__ == "__main__":
+    main()
+
 
 ```
