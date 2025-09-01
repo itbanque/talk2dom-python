@@ -1,6 +1,6 @@
 [project]
 name = "talk2dom"
-version = "0.2.8"
+version = "0.2.9"
 description = "Minimal Python client for Talk2Dom API (natural-language DOM locator)."
 readme = "README.md"
 authors = [{ name = "Talk2Dom" }]
