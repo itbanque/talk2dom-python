@@ -92,6 +92,8 @@ class Talk2DomClient:
         }
         data = await self._apost_with_retry(path, payload)
         return LocatorResult(
+            action_type=data.get("action_type"),
+            action_value=data.get("action_value"),
             selector_type=data.get("selector_type"),
             selector_value=data["selector_value"],
         )
