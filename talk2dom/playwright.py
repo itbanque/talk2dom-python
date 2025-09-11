@@ -121,9 +121,6 @@ class PageNavigator:
         html = _get_html(self.page, element)
         res = self.client.locate(instruction, html=html, url=self.page.url)
         by, value = res.selector_type, res.selector_value
-        if not value:
-            logger.warning(f"Locator value {value} not for {by}")
-            return
         action_type, action_value = res.action_type, res.action_value
         loc = _find_locator(self.page, by, value)
         _highlight_element(self.page, loc)
