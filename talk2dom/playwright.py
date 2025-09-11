@@ -87,6 +87,16 @@ class PageNavigator:
         _highlight_element(self.page, loc)
         return loc
 
+    def wait_for(self, instruction: str, timeout: int = 10000) -> Locator:
+        html = _get_html(self.page)
+        res = self.client.locate(instruction, html=html, url=self.page.url)
+        by, value = res.selector_type, res.selector_value
+        sel = _by_to_playwright_selector(by, value)
+        self.page.wait_for_selector(sel, timeout=timeout)
+        loc = self.page.locator(sel).first
+        _highlight_element(self.page, loc)
+        return loc
+
     def click(self, instruction: str, element: Locator | None = None):
         html = _get_html(self.page, element)
         res = self.client.locate(instruction, html=html, url=self.page.url)
