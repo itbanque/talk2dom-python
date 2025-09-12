@@ -78,26 +78,33 @@ def _find_locator(
 
 # --------- PageNavigator Class ----------
 class PageNavigator:
-    def __init__(self, page: Page, client: Talk2DomClient = None):
+    def __init__(
+        self, page: Page, client: Talk2DomClient = None, highlight: bool = True
+    ):
         self.page = page
         self.client = client if client else Talk2DomClient()
+        self.highlight = highlight
 
     def get_element(self, instruction: str, element: Locator | None = None) -> Locator:
         html = _get_html(self.page, element)
         res = self.client.locate(instruction, html=html, url=self.page.url)
         by, value = res.selector_type, res.selector_value
         loc = _find_locator(self.page, by, value)
-        _highlight_element(self.page, loc)
+        if self.highlight:
+            _highlight_element(self.page, loc)
         return loc
 
-    def wait_for(self, instruction: str, timeout: int = 10000) -> Locator:
-        html = _get_html(self.page)
+    def wait_for(
+        self, instruction: str, element: Locator = None, timeout: int = 10000
+    ) -> Locator:
+        html = _get_html(self.page, element)
         res = self.client.locate(instruction, html=html, url=self.page.url)
         by, value = res.selector_type, res.selector_value
         sel = _by_to_playwright_selector(by, value)
         self.page.wait_for_selector(sel, timeout=timeout)
         loc = self.page.locator(sel).first
-        _highlight_element(self.page, loc)
+        if self.highlight:
+            _highlight_element(self.page, loc)
         return loc
 
     def click(self, instruction: str, element: Locator | None = None):
@@ -105,7 +112,8 @@ class PageNavigator:
         res = self.client.locate(instruction, html=html, url=self.page.url)
         by, value = res.selector_type, res.selector_value
         loc = _find_locator(self.page, by, value)
-        _highlight_element(self.page, loc)
+        if self.highlight:
+            _highlight_element(self.page, loc)
         loc.click()
 
     def send_keys(self, instruction: str, text: str, element: Locator | None = None):
@@ -113,7 +121,8 @@ class PageNavigator:
         res = self.client.locate(instruction, html=html, url=self.page.url)
         by, value = res.selector_type, res.selector_value
         loc = _find_locator(self.page, by, value)
-        _highlight_element(self.page, loc)
+        if self.highlight:
+            _highlight_element(self.page, loc)
         try:
             loc.fill("")
         except Exception:
@@ -126,7 +135,8 @@ class PageNavigator:
         by, value = res.selector_type, res.selector_value
         action_type, action_value = res.action_type, res.action_value
         loc = _find_locator(self.page, by, value)
-        _highlight_element(self.page, loc)
+        if self.highlight:
+            _highlight_element(self.page, loc)
         if action_type == "click":
             loc.click()
         elif action_type == "type":
