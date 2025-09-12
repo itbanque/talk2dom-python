@@ -14,12 +14,15 @@ except ImportError:
     )
 
 from .client import Talk2DomClient
+from .utils import clean_html
 
 
 def _get_html(driver: WebDriver, element: WebElement = None):
     if element:
-        return element.get_attribute("outerHTML")
-    return driver.find_element(By.TAG_NAME, "body").get_attribute("outerHTML")
+        html = element.get_attribute("outerHTML")
+    else:
+        html = driver.find_element(By.TAG_NAME, "body").get_attribute("outerHTML")
+    return clean_html(html)
 
 
 def _highlight_element(driver: WebDriver, element: WebElement, duration=2):

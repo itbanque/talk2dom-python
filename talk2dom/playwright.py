@@ -9,14 +9,17 @@ except ImportError:
     )
 
 from .client import Talk2DomClient
+from .utils import clean_html
 
 
 # ---------- Utilities ----------
 def _get_html(page: Page, element: Locator | None = None) -> str:
     if element is not None:
         # outerHTML of the first matching element
-        return element.evaluate("el => el.outerHTML")
-    return page.locator("body").evaluate("el => el.outerHTML")
+        html = element.evaluate("el => el.outerHTML")
+    else:
+        html = page.locator("body").evaluate("el => el.outerHTML")
+    return clean_html(html)
 
 
 def _highlight_element(page: Page, element: Locator, duration: float = 2.0):
