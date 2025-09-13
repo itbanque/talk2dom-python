@@ -15,6 +15,7 @@ except ImportError:
 
 from .client import Talk2DomClient
 from .utils import clean_html
+from .exceptions import ElementNotFoundError
 
 
 def _get_html(driver: WebDriver, element: WebElement = None):
@@ -50,6 +51,8 @@ def get_element(
     html = _get_html(driver, element)
     res = client.locate(instruction, html=html, url=driver.current_url)
     by, value = res.selector_type, res.selector_value
+    if not value:
+        raise ElementNotFoundError("element not found")
     el = driver.find_element(by, value)
     _highlight_element(driver, el)
     return el
@@ -61,11 +64,7 @@ def click(
     client: Talk2DomClient,
     element: WebElement = None,
 ):
-    html = _get_html(driver, element)
-    res = client.locate(instruction, html=html, url=driver.current_url)
-    by, value = res.selector_type, res.selector_value
-    el = driver.find_element(by, value)
-    _highlight_element(driver, el)
+    el = get_element(driver, instruction, client, element)
     el.click()
 
 
@@ -76,11 +75,7 @@ def send_keys(
     client: Talk2DomClient,
     element: WebElement = None,
 ):
-    html = _get_html(driver, element)
-    res = client.locate(instruction, html=html, url=driver.current_url)
-    by, value = res.selector_type, res.selector_value
-    el = driver.find_element(by, value)
-    _highlight_element(driver, el)
+    el = get_element(driver, instruction, client, element)
     el.clear()
     el.send_keys(text)
 
@@ -95,8 +90,7 @@ def go(
     res = client.locate(instruction, html=html, url=driver.current_url)
     by, value = res.selector_type, res.selector_value
     if not value:
-        logger.warning(f"Locator value {value} not for {by}")
-        return
+        raise ElementNotFoundError("element not found")
     action_type, action_value = res.action_type, res.action_value
     el = driver.find_element(by, value)
     _highlight_element(driver, el)
@@ -131,6 +125,8 @@ class ActionChains(SeleniumActionChains):
         html = _get_html(self._driver, self._last_element)
         res = self.client.locate(instruction, html=html, url=self._driver.current_url)
         by, value = res.selector_type, res.selector_value
+        if not value:
+            raise ElementNotFoundError("element not found")
         el = self._driver.find_element(by, value)
         _highlight_element(self._driver, el)
         self.move_to_element(el)
@@ -162,8 +158,7 @@ class ActionChains(SeleniumActionChains):
         res = self.client.locate(instruction, html=html, url=self._driver.current_url)
         by, value = res.selector_type, res.selector_value
         if not value:
-            logger.warning(f"Locator value {value} not for {by}")
-            return self
+            raise ElementNotFoundError("element not found")
         action_type, action_value = res.action_type, res.action_value
         el = self._driver.find_element(by, value)
         _highlight_element(self._driver, el)

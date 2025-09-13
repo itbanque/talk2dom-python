@@ -67,9 +67,10 @@ class Talk2DomClient:
         url: str,
         path: str = "/api/v1/inference/locator",
     ) -> LocatorResult:
+        logger.info(f"Looking for UI location, user_instruction: {instruction}")
         payload = {"user_instruction": instruction, "html": html, "url": url}
         data = self._post_with_retry(path, payload)
-        logger.info(f"Location response: {data}")
+        logger.debug(f"Location response: {data}")
         return LocatorResult(
             action_type=data.get("action_type"),
             action_value=data.get("action_value"),
@@ -90,7 +91,9 @@ class Talk2DomClient:
             "html": html,
             "url": url or "",
         }
+        logger.info(f"Looking for UI location, user_instruction: {instruction}")
         data = await self._apost_with_retry(path, payload)
+        logger.debug(f"Location response: {data}")
         return LocatorResult(
             action_type=data.get("action_type"),
             action_value=data.get("action_value"),

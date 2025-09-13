@@ -10,6 +10,7 @@ except ImportError:
 
 from .client import Talk2DomClient
 from .utils import clean_html
+from .exceptions import ElementNotFoundError
 
 
 # ---------- Utilities ----------
@@ -67,6 +68,8 @@ def _by_to_playwright_selector(selector_type: str, value: str) -> str:
 def _find_locator(
     page: Page, selector_type: str, selector_value: str, timeout_ms: int = 10000
 ) -> Locator:
+    if not selector_value:
+        raise ElementNotFoundError("Element not found")
     sel = _by_to_playwright_selector(selector_type, selector_value)
     loc = page.locator(sel).first
     try:
